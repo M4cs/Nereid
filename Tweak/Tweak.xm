@@ -119,6 +119,11 @@ BOOL initialRelayout = YES;
     return self;
 }
 
+-(void)_didUpdateDisplay {
+    %orig;
+    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
+}
+
 %end
 
 %hook SBDashBoardAdjunctItemView
@@ -196,8 +201,7 @@ BOOL initialRelayout = YES;
         artworkView.hidden = YES;
     }
     
-    if (artworkAsBackground) artworkView.hidden = ![adjunctListViewController isShowingMediaControls];
-    else artworkView.hidden = YES;
+    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
 
     [lastDateView nrdUpdate];
 
