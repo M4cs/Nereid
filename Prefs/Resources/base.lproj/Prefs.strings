@@ -20,6 +20,7 @@
 
   "BLUR_RADIUS" = "Artwork blur radius";
 
+  "EXTRA_BUTTONS" = "Extra buttons";
   "EXTRA_BUTTON_LEFT" = "Extra button: left";
   "EXTRA_BUTTON_RIGHT" = "Extra button: right";
 
