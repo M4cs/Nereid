@@ -19,6 +19,7 @@
   "COLORIZE_DATE_AND_TIME" = "Colorize date and time";
 
   "BLUR_RADIUS" = "Artwork blur radius";
+  "DARKEN" = "Artwork darken";
 
   "EXTRA_BUTTONS" = "Extra buttons";
   "EXTRA_BUTTON_LEFT" = "Extra button: left";
@@ -41,6 +42,6 @@
   "IMPORT_SETTINGS" = "Import shared preset";
   "OK" = "OK";
   "CANCEL" = "Cancel";
-  "LICENSING_STACKBLUR" = "Licensing: StackBluriOS";
-  "LICENSING_STACKBLUR_INFO" = "StackBluriOS by Thomas Landspurg.";
+  "LICENSING_BLUR" = "Licensing: ios-darken-image-with-cifilter";
+  "LICENSING_BLUR_INFO" = "ios-darken-image-with-cifilter by Bryan Clark.";
 }

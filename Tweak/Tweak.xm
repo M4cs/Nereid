@@ -18,6 +18,7 @@ BOOL hideTimeLabels;
 BOOL showMiddleButtonCircle;
 BOOL colorizeDateAndTime;
 NSInteger blurRadius = 0;
+NSInteger darken = 0;
 NSInteger color = 0;
 
 NSInteger extraButtonLeft = 0;
@@ -156,8 +157,8 @@ BOOL initialRelayout = YES;
                 lastImageData = [dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData];
                 
                 UIImage *toImage = image;
-                if (blurRadius > 0) {
-                    toImage = [image stackBlur:blurRadius];
+                if (blurRadius > 0 || darken > 0) {
+                    toImage = [image darkened:((CGFloat)darken/100.0f) andBlurredImage:blurRadius];
                 }
 
                 if ([self nowPlayingApplication] && [[self nowPlayingApplication] bundleIdentifier] &&
@@ -203,9 +204,9 @@ BOOL initialRelayout = YES;
                     }
 
                     if (color == 0) {
-                        CGRect croppingRect = CGRectMake(image.size.width/2 - image.size.width/5, image.size.height/2 - image.size.height/10, image.size.width/2.5, image.size.height/5);
-                        UIGraphicsBeginImageContextWithOptions(croppingRect.size, false, [image scale]);
-                        [image drawAtPoint:CGPointMake(-croppingRect.origin.x, -croppingRect.origin.y)];
+                        CGRect croppingRect = CGRectMake(toImage.size.width/2 - toImage.size.width/5, toImage.size.height/2 - toImage.size.height/10, toImage.size.width/2.5, toImage.size.height/5);
+                        UIGraphicsBeginImageContextWithOptions(croppingRect.size, false, [toImage scale]);
+                        [toImage drawAtPoint:CGPointMake(-croppingRect.origin.x, -croppingRect.origin.y)];
                         UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
                         UIGraphicsEndImageContext();
                         UIColor *color = [NEPColorUtils averageColor:croppedImage withAlpha:1.0];
@@ -767,6 +768,7 @@ void reloadColors() {
     [preferences registerInteger:&extraButtonLeft default:0 forKey:@"ExtraButtonLeft"];
     [preferences registerInteger:&extraButtonRight default:0 forKey:@"ExtraButtonRight"];
     [preferences registerInteger:&blurRadius default:0 forKey:@"BlurRadius"];
+    [preferences registerInteger:&darken default:0 forKey:@"Darken"];
     [preferences registerInteger:&color default:0 forKey:@"Color"];
 
     %init(Nereid);

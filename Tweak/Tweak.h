@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <UIKit/UIControl.h>
-#import "UIImage+StackBlur.h"
+#import "UIImage+BlurAndDarken.h"
 
 @interface NRDManager : NSObject
 

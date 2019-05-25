@@ -260,6 +260,35 @@
 			<string>me.nepeta.nereid/ReloadPrefs</string>
 		</dict>
 
+ 		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>DARKEN</string>
+			<key>isStaticText</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>defaults</key>
+			<string>me.nepeta.nereid</string>
+			<key>key</key>
+			<string>Darken</string>
+			<key>min</key>
+			<integer>0</integer>
+			<key>max</key>
+			<integer>100</integer>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>me.nepeta.nereid/ReloadPrefs</string>
+		</dict>
+
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -419,11 +448,11 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>LICENSING_STACKBLUR</string>
+			<string>LICENSING_BLUR</string>
 			<key>subtitle</key>
-			<string>LICENSING_STACKBLUR_INFO</string>
+			<string>LICENSING_BLUR_INFO</string>
 			<key>url</key>
-			<string>https://github.com/tomsoft1/StackBluriOS/blob/master/Classes/UIImage%2BStackBlur.m</string>
+			<string>https://github.com/bryanjclark/ios-darken-image-with-cifilter/blob/master/LICENSE</string>
 		</dict>
 	</array>
 	<key>title</key>
