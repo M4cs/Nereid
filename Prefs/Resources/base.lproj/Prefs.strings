@@ -36,10 +36,6 @@
   "RESET_PREFS" = "Restore default settings and respring";
   "RESPRING" = "Respring";
   "ARE_YOU_SURE_TO_RESET_PREFS" = "Are you sure you want to reset all your preferences? This cannot be undone.";
-  "TEST_BANNER" = "Test banner";
-  "SAVE_SETTINGS" = "Save current settings";
-  "SHARE_SETTINGS" = "Share current settings";
-  "IMPORT_SETTINGS" = "Import shared preset";
   "OK" = "OK";
   "CANCEL" = "Cancel";
   "LICENSING_BLUR" = "Licensing: ios-darken-image-with-cifilter";

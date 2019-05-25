@@ -381,30 +381,6 @@
 		</dict>
 		<dict>
 			<key>action</key>
-			<string>saveSettings:</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>SAVE_SETTINGS</string>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>shareSettings:</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>SHARE_SETTINGS</string>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>importSettings:</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>IMPORT_SETTINGS</string>
-		</dict>
-		<dict>
-			<key>action</key>
 			<string>resetPrefs:</string>
 			<key>cell</key>
 			<string>PSButtonCell</string>
