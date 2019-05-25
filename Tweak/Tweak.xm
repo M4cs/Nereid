@@ -150,6 +150,8 @@ BOOL initialRelayout = YES;
         if (dict) {
             if (dict[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
                 UIImage *image = [UIImage imageWithData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]];
+                if (!image) return;
+                
                 UIImage *toImage = image;
                 if (blurRadius > 0) {
                     toImage = [image stackBlur:blurRadius];
