@@ -61,6 +61,8 @@ BOOL initialRelayout = YES;
 
     if (color == 3) self.mainColor = [LCPParseColorString([colors objectForKey:@"CustomColor"], @"#ffffff:1.0") copy];
     self.fallbackColor = [LCPParseColorString([colors objectForKey:@"CustomColor"], @"#ffffff:1.0") copy];
+
+    if (lastController && color == 3) [lastController nrdUpdate];
 }
 
 @end
@@ -287,6 +289,7 @@ BOOL initialRelayout = YES;
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTimeControl nrdUpdate];
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView nrdUpdate];
     [self.headerView nrdUpdate];
+    [self.volumeContainerView nrdUpdate];
 
     [self.parentContainerView setNeedsLayout];
     [self.parentContainerView layoutIfNeeded];
@@ -449,6 +452,38 @@ BOOL initialRelayout = YES;
     [self.knobView setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.elapsedTimeLabel setTextColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.remainingTimeLabel setTextColor:[[NRDManager sharedInstance].mainColor copy]];
+}
+
+%end
+
+%hook MediaControlsVolumeContainerView
+
+%property (nonatomic, assign) BOOL nrdEnabled;
+
+%new
+-(void)nrdUpdate {
+    self.volumeSlider.layer.filters = nil;
+    self.volumeSlider.layer.compositingFilter = nil;
+
+    [self.volumeSlider _minTrackView].layer.filters = nil;
+    [self.volumeSlider _minTrackView].layer.compositingFilter = nil;
+
+    [self.volumeSlider _maxTrackView].layer.filters = nil;
+    [self.volumeSlider _maxTrackView].layer.compositingFilter = nil;
+
+    [self.volumeSlider _minValueView].layer.filters = nil;
+    [self.volumeSlider _minValueView].layer.compositingFilter = nil;
+    [self.volumeSlider _minValueView].image = [[self.volumeSlider _minValueView].image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.volumeSlider _minValueView].tintColor = [[NRDManager sharedInstance].mainColor copy];
+
+    [self.volumeSlider _maxValueView].layer.filters = nil;
+    [self.volumeSlider _maxValueView].layer.compositingFilter = nil;
+    [self.volumeSlider _maxValueView].image = [[self.volumeSlider _maxValueView].image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.volumeSlider _maxValueView].tintColor = [[NRDManager sharedInstance].mainColor copy];
+
+    self.volumeSlider.minimumTrackTintColor = [[NRDManager sharedInstance].mainColor copy];
+    self.volumeSlider.maximumTrackTintColor = [[NRDManager sharedInstance].mainColor copy];
+    self.volumeSlider.thumbTintColor = [[NRDManager sharedInstance].mainColor copy];
 }
 
 %end
@@ -773,5 +808,5 @@ void reloadColors() {
 
     %init(Nereid);
 
-    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadColors, (CFStringRef)@"me.nepeta.flashyhud/ReloadColors", NULL, (CFNotificationSuspensionBehavior)kNilOptions);
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadColors, (CFStringRef)@"me.nepeta.nereid/ReloadColors", NULL, (CFNotificationSuspensionBehavior)kNilOptions);
 }

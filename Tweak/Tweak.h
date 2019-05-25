@@ -533,6 +533,13 @@
 
 @interface MPVolumeSlider : UISlider
 
+@property (nonatomic,readonly) UIView* thumbView;
+
+-(UIImageView *)_minTrackView;
+-(UIImageView *)_maxTrackView;
+-(UIImageView *)_minValueView;
+-(UIImageView *)_maxValueView;
+
 @end
 
 @interface MediaControlsVolumeContainerView : UIView
@@ -552,6 +559,11 @@
 -(MPVolumeSlider *)volumeSlider;
 -(void)setOnScreen:(BOOL)arg1 ;
 -(void)setVolumeSlider:(MPVolumeSlider *)arg1 ;
+
+@property (nonatomic, assign) BOOL nrdEnabled;
+
+-(void)nrdUpdate;
+
 @end
 
 @interface MediaControlsEndpointController : NSObject
