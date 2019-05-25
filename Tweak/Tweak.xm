@@ -155,6 +155,38 @@ BOOL initialRelayout = YES;
                     toImage = [image stackBlur:blurRadius];
                 }
 
+                if ([self nowPlayingApplication] && [[self nowPlayingApplication] bundleIdentifier] &&
+                        [[[self nowPlayingApplication] bundleIdentifier] isEqualToString:@"com.spotify.client"] &&
+                        image.size.height == 600 && image.size.width == 600) { //spotify's placeholder image
+                    CFDataRef pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
+                    const UInt8* data = CFDataGetBytePtr(pixelData);
+                    int bytes = CFDataGetLength(pixelData);
+                    int multiplier = 4;
+
+                    if (bytes == image.size.height * image.size.width * 3) {
+                        multiplier = 3;
+                    }
+
+                    int checked = 0;
+                    NSArray *toCheck = @[@[@30, @30], @[@570, @30], @[@30, @570], @[@570, @570]];
+
+                    for (NSArray *array in toCheck) {
+                        int pixelInfo = ((image.size.width * [array[0] intValue]) + [array[1] intValue]) * multiplier;
+                        UInt8 red   = data[pixelInfo + 0];
+                        UInt8 green = data[pixelInfo + 1];
+                        UInt8 blue  = data[pixelInfo + 2];
+
+                        if (red == 40 && green == 40 && blue == 40) checked++;
+                        else break;
+                    }
+
+                    CFRelease(pixelData);
+
+                    if ([toCheck count] == checked) { // spotify placeholder image detected
+                        return;
+                    }
+                }
+
                 [UIView transitionWithView:artworkView duration:0.5f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                     artworkView.image = toImage;
                 } completion:nil];
