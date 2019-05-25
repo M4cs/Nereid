@@ -400,6 +400,8 @@ BOOL initialRelayout = YES;
     self.elapsedTimeLabel.layer.filters = nil;
     self.remainingTimeLabel.layer.filters = nil;
 
+    self.remainingTrack.alpha = 0.5;
+
     [self.elapsedTrack setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.remainingTrack setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.knobView setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
