@@ -394,6 +394,12 @@ BOOL initialRelayout = YES;
     self.elapsedTimeLabel.layer.compositingFilter = nil;
     self.remainingTimeLabel.layer.compositingFilter = nil;
 
+    self.elapsedTrack.layer.filters = nil;
+    self.remainingTrack.layer.filters = nil;
+    self.knobView.layer.filters = nil;
+    self.elapsedTimeLabel.layer.filters = nil;
+    self.remainingTimeLabel.layer.filters = nil;
+
     [self.elapsedTrack setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.remainingTrack setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];
     [self.knobView setBackgroundColor:[[NRDManager sharedInstance].mainColor copy]];

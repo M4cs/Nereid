@@ -273,6 +273,8 @@
 			<string>PSLinkListCell</string>
 			<key>label</key>
 			<string>EXTRA_BUTTON_LEFT</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
 			<key>default</key>
 			<integer>0</integer>
 			<key>defaults</key>
@@ -303,6 +305,8 @@
 			<string>PSLinkListCell</string>
 			<key>label</key>
 			<string>EXTRA_BUTTON_RIGHT</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
 			<key>default</key>
 			<integer>0</integer>
 			<key>defaults</key>
