@@ -166,7 +166,7 @@ BOOL initialRelayout = YES;
                     }
 
                     if (color == 0) {
-                        CGRect croppingRect = CGRectMake(image.size.width/2 - image.size.width/10, image.size.height/2 - image.size.height/10, image.size.width/5, image.size.height/5);
+                        CGRect croppingRect = CGRectMake(image.size.width/2 - image.size.width/5, image.size.height/2 - image.size.height/10, image.size.width/2.5, image.size.height/5);
                         UIGraphicsBeginImageContextWithOptions(croppingRect.size, false, [image scale]);
                         [image drawAtPoint:CGPointMake(-croppingRect.origin.x, -croppingRect.origin.y)];
                         UIImage* croppedImage = UIGraphicsGetImageFromCurrentImageContext();
