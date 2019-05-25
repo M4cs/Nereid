@@ -1,0 +1,45 @@
+{
+  "ENABLED" = "Enabled";
+  "COLOR" = "Color";
+
+  "AUTOMATIC" = "Automatic";
+  "DEFAULT" = "Default";
+  "DYNAMIC" = "Dynamic";
+  "CUSTOM" = "Custom";
+
+  "SETTINGS" = "Settings";
+  "ARTWORK_AS_BACKGROUND" = "Artwork as background";
+  "HIDE_TIME_LABELS" = "Hide elapsed/remaining time text";
+  "HIDE_VOLUME_SLIDER" = "Hide volume bar";
+  "REMOVE_ALBUM_NAME" = "Remove album name";
+  "CHANGE_CONTROLS_LAYOUT" = "Make controls smaller";
+  "SHOW_MIDDLE_BUTTON_CIRCLE" = "Show circle around the play/pause button";
+  "REPLACE_ICONS" = "Replace icons";
+  "SWAP_ARTIST_AND_TITLE" = "Swap artist name and title";
+  "COLORIZE_DATE_AND_TIME" = "Colorize date and time";
+
+  "BLUR_RADIUS" = "Artwork blur radius";
+
+  "EXTRA_BUTTON_LEFT" = "Extra button: left";
+  "EXTRA_BUTTON_RIGHT" = "Extra button: right";
+
+  "DISABLED" = "Disabled";
+  "SHUFFLE" = "Shuffle";
+  "REPEAT" = "Repeat";
+  "SKIP_15" = "Skip 15 seconds";
+
+  "SOURCE_CODE" = "Source code";
+  "DONATE_TO_NEPETA" = "Donate to Nepeta";
+  "SUPPORT_ME" = "Support me!";
+  "RESET_PREFS" = "Restore default settings and respring";
+  "RESPRING" = "Respring";
+  "ARE_YOU_SURE_TO_RESET_PREFS" = "Are you sure you want to reset all your preferences? This cannot be undone.";
+  "TEST_BANNER" = "Test banner";
+  "SAVE_SETTINGS" = "Save current settings";
+  "SHARE_SETTINGS" = "Share current settings";
+  "IMPORT_SETTINGS" = "Import shared preset";
+  "OK" = "OK";
+  "CANCEL" = "Cancel";
+  "LICENSING_STACKBLUR" = "Licensing: StackBluriOS";
+  "LICENSING_STACKBLUR_INFO" = "StackBluriOS by Thomas Landspurg.";
+}
