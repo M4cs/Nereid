@@ -150,11 +150,14 @@ BOOL initialRelayout = YES;
         if (dict) {
             if (dict[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
                 UIImage *image = [UIImage imageWithData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]];
-                if (blurRadius <= 0) {
-                    artworkView.image = image;
-                } else {
-                    artworkView.image = [image stackBlur:blurRadius];
+                UIImage *toImage = image;
+                if (blurRadius > 0) {
+                    toImage = [image stackBlur:blurRadius];
                 }
+
+                [UIView transitionWithView:artworkView duration:0.5f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                    artworkView.image = toImage;
+                } completion:nil];
 
                 if (color == 0 || color == 2) {
                     if (color == 2) {
@@ -200,6 +203,7 @@ BOOL initialRelayout = YES;
         artworkView.contentMode = UIViewContentModeScaleAspectFill;
         [self.view insertSubview:artworkView atIndex:0];
         artworkView.hidden = YES;
+        artworkView.image = [UIImage new];
     }
     
     artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
@@ -495,12 +499,12 @@ BOOL initialRelayout = YES;
 }
 
 -(void)_updateButtonImage:(UIImage *)image button:(MediaControlsTransportButton *)button {
-    if (self.nrdEnabled && ((replaceIcons && !button.shouldPresentActionSheet) || button == self.nrdLeftButton || button == self.nrdRightButton)) {
+    if (self.nrdEnabled) {
         UIImage *newImage = nil;
-        if (button == self.leftButton) {
+        if (button == self.leftButton && replaceIcons && !button.shouldPresentActionSheet) {
             newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/back.png"]
                             imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        } else if (button == self.rightButton) {
+        } else if (button == self.rightButton && replaceIcons && !button.shouldPresentActionSheet) {
             newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/forward.png"]
                             imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         } else if (button == self.nrdLeftButton) {
