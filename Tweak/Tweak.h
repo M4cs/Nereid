@@ -8,6 +8,7 @@
 @property (nonatomic, retain) UIColor *mainColor;
 @property (nonatomic, retain) UIColor *fallbackColor;
 @property (nonatomic, retain) UIColor *legibilityColor;
+@property (nonatomic, retain) UIColor *artworkBackgroundColor;
 +(instancetype)sharedInstance;
 -(id)init;
 

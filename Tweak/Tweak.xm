@@ -20,6 +20,7 @@ BOOL colorizeDateAndTime;
 NSInteger blurRadius = 0;
 NSInteger darken = 0;
 NSInteger color = 0;
+NSInteger artworkMode = 0;
 
 NSInteger extraButtonLeft = 0;
 NSInteger extraButtonRight = 0;
@@ -46,6 +47,7 @@ BOOL initialRelayout = YES;
         sharedInstance = [NRDManager alloc];
         sharedInstance.mainColor = [UIColor whiteColor];
         sharedInstance.fallbackColor = [UIColor whiteColor];
+        sharedInstance.artworkBackgroundColor = [UIColor blackColor];
         [sharedInstance reloadColors];
     });
     return sharedInstance;
@@ -61,8 +63,10 @@ BOOL initialRelayout = YES;
 
     if (color == 3) self.mainColor = [LCPParseColorString([colors objectForKey:@"CustomColor"], @"#ffffff:1.0") copy];
     self.fallbackColor = [LCPParseColorString([colors objectForKey:@"CustomColor"], @"#ffffff:1.0") copy];
+    self.artworkBackgroundColor = [LCPParseColorString([colors objectForKey:@"ArtworkBackgroundColor"], @"#000000:1.0") copy];
 
     if (lastController && color == 3) [lastController nrdUpdate];
+    if (artworkView) artworkView.backgroundColor = [self.artworkBackgroundColor copy];
 }
 
 @end
@@ -244,8 +248,12 @@ BOOL initialRelayout = YES;
         [self.view insertSubview:artworkView atIndex:0];
         artworkView.hidden = YES;
         artworkView.image = [UIImage new];
+        artworkView.backgroundColor = [[NRDManager sharedInstance].artworkBackgroundColor copy];
     }
     
+    if (artworkMode == 0) artworkView.contentMode = UIViewContentModeScaleAspectFill;
+    else artworkView.contentMode = UIViewContentModeScaleAspectFit;
+
     artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
 
     [lastDateView nrdUpdate];
@@ -805,6 +813,7 @@ void reloadColors() {
     [preferences registerInteger:&blurRadius default:0 forKey:@"BlurRadius"];
     [preferences registerInteger:&darken default:0 forKey:@"Darken"];
     [preferences registerInteger:&color default:0 forKey:@"Color"];
+    [preferences registerInteger:&artworkMode default:0 forKey:@"ArtworkMode"];
 
     %init(Nereid);
 

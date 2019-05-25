@@ -30,6 +30,11 @@
   "REPEAT" = "Repeat";
   "SKIP_15" = "Skip 15 seconds";
 
+  "ARTWORK_MODE" = "Artwork mode";
+  "FILL" = "Scale to fill";
+  "FIT" = "Shrink to fit";
+  "BACKGROUND_COLOR" = "Background color";
+
   "SOURCE_CODE" = "Source code";
   "DONATE_TO_NEPETA" = "Donate to Nepeta";
   "SUPPORT_ME" = "Support me!";
