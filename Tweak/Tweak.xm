@@ -121,7 +121,8 @@ BOOL initialRelayout = YES;
 
 -(void)_didUpdateDisplay {
     %orig;
-    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
+    if ([self isShowingMediaControls]) [lastController nrdUpdate];
+    artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls]);
 }
 
 %end
@@ -222,7 +223,6 @@ BOOL initialRelayout = YES;
 -(void)setStyle:(NSInteger)style {
     if (style == 3) { // 0 for reachit full
         self.nrdEnabled = YES;
-        self.parentContainerView.mediaControlsContainerView.nrdEnabled = YES;
         self.parentContainerView.mediaControlsContainerView.mediaControlsTimeControl.nrdEnabled = YES;
         self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView.nrdEnabled = YES;
         self.headerView.nrdEnabled = YES;
@@ -230,7 +230,6 @@ BOOL initialRelayout = YES;
         lastController = self;
     } else {
         self.nrdEnabled = NO;
-        self.parentContainerView.mediaControlsContainerView.nrdEnabled = NO;
         self.parentContainerView.mediaControlsContainerView.mediaControlsTimeControl.nrdEnabled = NO;
         self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView.nrdEnabled = NO;
         self.headerView.nrdEnabled = NO;
@@ -243,20 +242,27 @@ BOOL initialRelayout = YES;
 -(void)nrdUpdate {
     if (!self.nrdEnabled) return;
 
-    [self.parentContainerView.mediaControlsContainerView nrdUpdate];
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTimeControl nrdUpdate];
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView nrdUpdate];
     [self.headerView nrdUpdate];
+
+    [self.parentContainerView setNeedsLayout];
+    [self.parentContainerView layoutIfNeeded];
+    [self.parentContainerView.mediaControlsContainerView setNeedsLayout];
+    [self.parentContainerView.mediaControlsContainerView layoutIfNeeded];
+    [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView setNeedsLayout];
+    [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView layoutIfNeeded];
 }
 
 -(void)viewWillLayoutSubviews {
     %orig;
-    self.volumeContainerView.hidden = (self.nrdEnabled && hideVolumeSlider);
+    if (!self.nrdEnabled) return;
+    self.volumeContainerView.hidden = (hideVolumeSlider);
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     %orig;
-    if (artworkView) artworkView.hidden = !(self.nrdEnabled && artworkAsBackground);
+    if (!self.nrdEnabled) return;
     [lastDateView nrdUpdate];
     [self.parentContainerView setNeedsLayout];
     [self.parentContainerView layoutIfNeeded];
@@ -264,6 +270,7 @@ BOOL initialRelayout = YES;
 
 -(void)viewDidAppear:(BOOL)animated {
     %orig;
+    if (!self.nrdEnabled) return;
     [self.parentContainerView setNeedsLayout];
     [self.parentContainerView layoutIfNeeded];
     [self.parentContainerView.mediaControlsContainerView setNeedsLayout];
@@ -276,27 +283,6 @@ BOOL initialRelayout = YES;
     %orig;
     if (artworkView) artworkView.hidden = YES;
     [lastDateView nrdUpdate];
-}
-
-%end
-
-%hook MediaControlsContainerView
-
-%property (nonatomic, assign) BOOL nrdEnabled;
-
--(void)layoutSubviews {
-    %orig;
-    /*if (!self.nrdEnabled || !changeControlsLayout) return;
-
-    CGRect frame = self.mediaControlsTransportStackView.frame;
-    CGFloat width = 220;
-    if (replaceIcons) width = 180;
-    self.mediaControlsTransportStackView.frame = CGRectMake(frame.origin.x + frame.size.width/2.0 - width/2.0, frame.origin.y, width, frame.size.height);*/
-}
-
-%new
--(void)nrdUpdate {
-
 }
 
 %end
