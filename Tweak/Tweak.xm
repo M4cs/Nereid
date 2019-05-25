@@ -370,7 +370,8 @@ BOOL initialRelayout = YES;
     
     /* Remove routing stuff */
     [self.routingButton removeFromSuperview];
-    [self.routeLabel removeFromSuperview];
+    if ([self respondsToSelector:@selector(routeLabel)]) [self.routeLabel removeFromSuperview];
+    if ([self respondsToSelector:@selector(titleLabel)]) [self.titleLabel removeFromSuperview];
 
     /* Remove artwork view */
     [self.artworkView removeFromSuperview];

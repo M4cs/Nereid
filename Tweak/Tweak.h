@@ -232,7 +232,7 @@
 @property (nonatomic,retain) UIView * artworkBackgroundView;                                       //@synthesize artworkBackgroundView=_artworkBackgroundView - In the implementation block
 @property (nonatomic,retain) UIView * shadow;                                                      //@synthesize shadow=_shadow - In the implementation block
 //@property (nonatomic,retain) MPUMarqueeView * titleMarqueeView;                                    //@synthesize titleMarqueeView=_titleMarqueeView - In the implementation block
-//@property (nonatomic,retain) UILabel * titleLabel;                                                 //@synthesize titleLabel=_titleLabel - In the implementation block
+@property (nonatomic,retain) UILabel * titleLabel;                                                 //@synthesize titleLabel=_titleLabel - In the implementation block
 @property (nonatomic,retain) UILabel * routeLabel;     
 @property (nonatomic,retain) MPUMarqueeView * primaryMarqueeView;                                  //@synthesize primaryMarqueeView=_primaryMarqueeView - In the implementation block
 @property (nonatomic,retain) UILabel * primaryLabel;                                               //@synthesize primaryLabel=_primaryLabel - In the implementation block
