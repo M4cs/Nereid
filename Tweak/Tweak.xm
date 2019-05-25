@@ -24,6 +24,7 @@ NSInteger extraButtonLeft = 0;
 NSInteger extraButtonRight = 0;
 
 UIImageView *artworkView = nil;
+NSData *lastImageData = nil;
 CGFloat alpha = 1; //default 0.667
 
 MediaControlsPanelViewController *lastController = nil;
@@ -151,6 +152,8 @@ BOOL initialRelayout = YES;
             if (dict[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
                 UIImage *image = [UIImage imageWithData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]];
                 if (!image) return;
+                if (lastImageData && [lastImageData isEqualToData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]]) return;
+                lastImageData = [dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData];
                 
                 UIImage *toImage = image;
                 if (blurRadius > 0) {
@@ -189,7 +192,7 @@ BOOL initialRelayout = YES;
                     }
                 }
 
-                [UIView transitionWithView:artworkView duration:0.5f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                [UIView transitionWithView:artworkView duration:0.4f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                     artworkView.image = toImage;
                 } completion:nil];
 
