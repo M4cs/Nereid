@@ -1,7 +1,7 @@
 Package: me.nepeta.nereid
 Name: Nereid
 Depends: mobilesubstrate, ws.hbang.common (>= 1.11), me.nepeta.libcolorpicker, me.nepeta.libnepeta, firmware (>= 11.0)
-Version: 0.1.4
+Version: 0.1.5
 Architecture: iphoneos-arm
 Description: Lock screen music player redesign
 Maintainer: Nepeta
