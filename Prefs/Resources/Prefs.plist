@@ -262,6 +262,22 @@
 			<key>PostNotification</key>
 			<string>me.nepeta.nereid/ReloadPrefs</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>me.nepeta.nereid</string>
+			<key>label</key>
+			<string>ALWAYS_SHOW_PLAYER</string>
+			<key>key</key>
+			<string>AlwaysShowPlayer</string>
+			<key>alternateColors</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>me.nepeta.nereid/ReloadPrefs</string>
+		</dict>
 
  		<dict>
 			<key>cell</key>

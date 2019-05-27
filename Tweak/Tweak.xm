@@ -20,6 +20,7 @@ BOOL showMiddleButtonCircle;
 BOOL colorizeDateAndTime;
 BOOL hapticFeedback;
 BOOL hideClockWhilePlaying;
+BOOL alwaysShowPlayer;
 NSInteger blurRadius = 0;
 NSInteger darken = 0;
 NSInteger color = 0;
@@ -39,7 +40,7 @@ SBDashBoardNotificationAdjunctListViewController *adjunctListViewController = ni
 BOOL isShuffle = 0;
 int isRepeat = 0;
 
-BOOL initialRelayout = YES;
+BOOL hasArtwork = NO;
 
 @implementation NRDManager
 
@@ -130,11 +131,16 @@ BOOL initialRelayout = YES;
     return self;
 }
 
+-(BOOL)_shouldShowMediaControls {
+    if (alwaysShowPlayer) return YES;
+    return %orig;
+}
+
 -(void)_didUpdateDisplay {
     %orig;
     if (hideClockWhilePlaying) lastDateView.hidden = [self isShowingMediaControls];
     if ([self isShowingMediaControls]) [lastController nrdUpdate];
-    artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls]);
+    artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls] || !hasArtwork);
 }
 
 %end
@@ -158,11 +164,14 @@ BOOL initialRelayout = YES;
     if (!artworkAsBackground) return;
     MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(), ^(CFDictionaryRef information) {
         NSDictionary *dict = (__bridge NSDictionary *)information;
-
+        
+        hasArtwork = NO;
         if (dict) {
             if (dict[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
                 UIImage *image = [UIImage imageWithData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]];
                 if (!image) return;
+                hasArtwork = YES;
+                
                 if (lastImageData && [lastImageData isEqualToData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]]) return;
                 lastImageData = [dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData];
                 
@@ -234,6 +243,8 @@ BOOL initialRelayout = YES;
         if (color == 3) {
             [NRDManager sharedInstance].mainColor = [NRDManager sharedInstance].fallbackColor;
         }
+        
+        artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls] || !hasArtwork);
 
         [lastController nrdUpdate];
         [lastDateView nrdUpdate];
@@ -258,7 +269,7 @@ BOOL initialRelayout = YES;
     if (artworkMode == 0) artworkView.contentMode = UIViewContentModeScaleAspectFill;
     else artworkView.contentMode = UIViewContentModeScaleAspectFit;
 
-    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
+    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
 
     [lastDateView nrdUpdate];
 
@@ -884,6 +895,7 @@ void reloadColors() {
     [preferences registerBool:&swapArtistAndTitle default:NO forKey:@"SwapArtistAndTitle"];
     [preferences registerBool:&hapticFeedback default:NO forKey:@"HapticFeedback"];
     [preferences registerBool:&hideClockWhilePlaying default:NO forKey:@"HideClockWhilePlaying"];
+    [preferences registerBool:&alwaysShowPlayer default:NO forKey:@"AlwaysShowPlayer"];
     [preferences registerInteger:&extraButtonLeft default:0 forKey:@"ExtraButtonLeft"];
     [preferences registerInteger:&extraButtonRight default:0 forKey:@"ExtraButtonRight"];
     [preferences registerInteger:&blurRadius default:0 forKey:@"BlurRadius"];

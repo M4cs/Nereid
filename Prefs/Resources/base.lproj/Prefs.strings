@@ -19,6 +19,7 @@
   "COLORIZE_DATE_AND_TIME" = "Colorize date and time";
   "HAPTIC_FEEDBACK" = "Haptic feedback";
   "HIDE_CLOCK_WHILE_PLAYING" = "Hide clock while playing";
+  "ALWAYS_SHOW_PLAYER" = "Always show the player";
 
   "BLUR_RADIUS" = "Artwork blur radius";
   "DARKEN" = "Artwork darken";
