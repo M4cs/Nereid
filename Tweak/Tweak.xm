@@ -612,6 +612,10 @@ BOOL initialRelayout = YES;
                     newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/back15.png"]
                                     imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                     break;
+                case 4:
+                    newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/route.png"]
+                                    imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    break;
             }
         } else if (button == self.nrdRightButton) {
             switch (extraButtonRight) {
@@ -630,6 +634,10 @@ BOOL initialRelayout = YES;
                     break;
                 case 3:
                     newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/forward15.png"]
+                                    imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    break;
+                case 4:
+                    newImage = [[UIImage imageWithContentsOfFile:@"/Library/Nereid/route.png"]
                                     imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                     break;
             }
@@ -699,6 +707,9 @@ BOOL initialRelayout = YES;
                 }
             });
             break;
+        case 4:
+            [lastController _presentRoutingViewControllerFromCoverSheet];
+            break;
     }
 }
 
@@ -721,6 +732,9 @@ BOOL initialRelayout = YES;
                     MRMediaRemoteSetElapsedTime(elapsedTime + 15);
                 }
             });
+            break;
+        case 4:
+            [lastController _presentRoutingViewControllerFromCoverSheet];
             break;
     }
 }

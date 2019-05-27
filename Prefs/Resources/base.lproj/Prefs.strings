@@ -31,6 +31,8 @@
   "SHUFFLE" = "Shuffle";
   "REPEAT" = "Repeat";
   "SKIP_15" = "Skip 15 seconds";
+  "BACK_15" = "Go back 15 seconds";
+  "DEVICES" = "Devices";
 
   "ARTWORK_MODE" = "Artwork mode";
   "FILL" = "Scale to fill";

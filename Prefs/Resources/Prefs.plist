@@ -402,16 +402,16 @@
 				<integer>1</integer>
 				<integer>2</integer>
 				<integer>3</integer>
+				<integer>4</integer>
 			</array>
 			<key>validTitles</key>
 			<array>
 				<string>DISABLED</string>
 				<string>SHUFFLE</string>
 				<string>REPEAT</string>
-				<string>SKIP_15</string>
+				<string>BACK_15</string>
+				<string>DEVICES</string>
 			</array>
-			<key>alignment</key>
-			<string>4</string>
 			<key>PostNotification</key>
 			<string>me.nepeta.nereid/ReloadPrefs</string>
 		</dict>
@@ -434,6 +434,7 @@
 				<integer>1</integer>
 				<integer>2</integer>
 				<integer>3</integer>
+				<integer>4</integer>
 			</array>
 			<key>validTitles</key>
 			<array>
@@ -441,9 +442,8 @@
 				<string>SHUFFLE</string>
 				<string>REPEAT</string>
 				<string>SKIP_15</string>
+				<string>DEVICES</string>
 			</array>
-			<key>alignment</key>
-			<string>4</string>
 			<key>PostNotification</key>
 			<string>me.nepeta.nereid/ReloadPrefs</string>
 		</dict>
