@@ -344,6 +344,30 @@ BOOL initialRelayout = YES;
 
 %end
 
+%hook MPUMarqueeView
+
+-(void)layoutSubviews {
+    if ([self.contentView subviews] && [[self.contentView subviews] count] > 0) {
+        UIView *view = [self.contentView subviews][0];
+
+        CGRect frame = view.frame;
+        if (frame.size.width < self.bounds.size.width) {
+            view.frame = CGRectMake(frame.origin.x, frame.origin.y, self.bounds.size.width, frame.size.height);
+        }
+
+        if (frame.size.width > self.bounds.size.width) {
+            view.frame = CGRectMake(frame.origin.x + 6, frame.origin.y, frame.size.width, frame.size.height);
+        }
+    }
+
+    %orig;
+
+    CGRect cvFrame = self.contentView.frame;
+    self.contentView.frame = CGRectMake(0, cvFrame.origin.y, cvFrame.size.width, cvFrame.size.height);
+}
+
+%end
+
 %hook MediaControlsHeaderView
 
 %property (nonatomic, assign) BOOL nrdEnabled;
@@ -385,25 +409,18 @@ BOOL initialRelayout = YES;
     [self.shadow removeFromSuperview];
 
     /* Remove scrolling text */
-    [self.primaryMarqueeView removeFromSuperview];
-    [self.secondaryMarqueeView removeFromSuperview];
-    [self.primaryLabel removeFromSuperview];
-    [self.secondaryLabel removeFromSuperview];
 
     self.primaryLabel.textAlignment = NSTextAlignmentCenter;
     self.secondaryLabel.textAlignment = NSTextAlignmentCenter;
 
-    self.primaryLabel.frame = CGRectMake(0, self.primaryMarqueeView.frame.origin.y, self.bounds.size.width, self.primaryMarqueeView.frame.size.height);
-    self.secondaryLabel.frame = CGRectMake(0, self.secondaryMarqueeView.frame.origin.y, self.bounds.size.width, self.secondaryMarqueeView.frame.size.height);
+    self.primaryMarqueeView.frame = CGRectMake(0, self.primaryMarqueeView.frame.origin.y, self.bounds.size.width, self.primaryMarqueeView.frame.size.height);
+    self.secondaryMarqueeView.frame = CGRectMake(0, self.secondaryMarqueeView.frame.origin.y, self.bounds.size.width, self.secondaryMarqueeView.frame.size.height);
 
     if (swapArtistAndTitle) {
-        CGRect temp = self.primaryLabel.frame;
-        self.primaryLabel.frame = self.secondaryLabel.frame;
-        self.secondaryLabel.frame = temp;
+        CGRect temp = self.primaryMarqueeView.frame;
+        self.primaryMarqueeView.frame = self.secondaryMarqueeView.frame;
+        self.secondaryMarqueeView.frame = temp;
     }
-
-    [self addSubview:self.primaryLabel];
-    [self addSubview:self.secondaryLabel];
 
     [self nrdUpdate];
 }
