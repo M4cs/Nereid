@@ -242,7 +242,7 @@ BOOL initialRelayout = YES;
 
 %end
 
-%hook SBDashBoardFixedFooterViewController
+%hook SBDashBoardViewController
 
 -(void)viewWillAppear:(BOOL)animated {
     %orig;
@@ -250,7 +250,7 @@ BOOL initialRelayout = YES;
         artworkView = [[UIImageView alloc] initWithFrame:self.view.bounds];
         artworkView.contentMode = UIViewContentModeScaleAspectFill;
         [self.view insertSubview:artworkView atIndex:0];
-        artworkView.hidden = YES;
+        artworkView.hidden = NO;
         artworkView.image = [UIImage new];
         artworkView.backgroundColor = [[NRDManager sharedInstance].artworkBackgroundColor copy];
     }
@@ -267,7 +267,7 @@ BOOL initialRelayout = YES;
 
 -(void)viewDidLayoutSubviews {
     %orig;
-    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
+    [self.view sendSubviewToBack:artworkView];
     artworkView.frame = self.view.bounds;
 }
 

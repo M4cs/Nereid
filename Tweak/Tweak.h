@@ -20,7 +20,7 @@
 
 @end
 
-@interface SBDashBoardFixedFooterViewController : UIViewController
+@interface SBDashBoardViewController : UIViewController
 
 @end
 
