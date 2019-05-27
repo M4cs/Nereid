@@ -17,6 +17,7 @@
   "REPLACE_ICONS" = "Replace icons";
   "SWAP_ARTIST_AND_TITLE" = "Swap artist name and title";
   "COLORIZE_DATE_AND_TIME" = "Colorize date and time";
+  "HAPTIC_FEEDBACK" = "Haptic feedback";
 
   "BLUR_RADIUS" = "Artwork blur radius";
   "DARKEN" = "Artwork darken";

@@ -1,6 +1,7 @@
 #import <Cephei/HBPreferences.h>
 #import <MediaRemote/MediaRemote.h>
 #import <Nepeta/NEPColorUtils.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import <libcolorpicker.h>
 #import "Tweak.h"
 
@@ -17,6 +18,7 @@ BOOL hideVolumeSlider;
 BOOL hideTimeLabels;
 BOOL showMiddleButtonCircle;
 BOOL colorizeDateAndTime;
+BOOL hapticFeedback;
 NSInteger blurRadius = 0;
 NSInteger darken = 0;
 NSInteger color = 0;
@@ -660,8 +662,24 @@ BOOL initialRelayout = YES;
     [button setTintColor:[[NRDManager sharedInstance].mainColor copy]];
 }
 
+-(void)touchUpInsideLeftButton:(id)arg1 {
+    %orig;
+    if (hapticFeedback) AudioServicesPlaySystemSound(1519);
+}
+
+-(void)touchUpInsideMiddleButton:(id)arg1 {
+    %orig;
+    if (hapticFeedback) AudioServicesPlaySystemSound(1519);
+}
+
+-(void)touchUpInsideRightButton:(id)arg1 {
+    %orig;
+    if (hapticFeedback) AudioServicesPlaySystemSound(1519);
+}
+
 %new
 -(void)nrdLeftButtonPressed:(id)sender {
+    if (hapticFeedback) AudioServicesPlaySystemSound(1519);
     switch (extraButtonLeft) {
         case 1:
             MRMediaRemoteSendCommand(MRMediaRemoteCommandAdvanceShuffleMode, nil);
@@ -684,6 +702,7 @@ BOOL initialRelayout = YES;
 
 %new
 -(void)nrdRightButtonPressed:(id)sender {
+    if (hapticFeedback) AudioServicesPlaySystemSound(1519);
     switch (extraButtonRight) {
         case 1:
             MRMediaRemoteSendCommand(MRMediaRemoteCommandAdvanceShuffleMode, nil);
@@ -809,6 +828,7 @@ void reloadColors() {
     [preferences registerBool:&replaceIcons default:YES forKey:@"ReplaceIcons"];
     [preferences registerBool:&colorizeDateAndTime default:YES forKey:@"ColorizeDateAndTime"];
     [preferences registerBool:&swapArtistAndTitle default:NO forKey:@"SwapArtistAndTitle"];
+    [preferences registerBool:&hapticFeedback default:NO forKey:@"HapticFeedback"];
     [preferences registerInteger:&extraButtonLeft default:0 forKey:@"ExtraButtonLeft"];
     [preferences registerInteger:&extraButtonRight default:0 forKey:@"ExtraButtonRight"];
     [preferences registerInteger:&blurRadius default:0 forKey:@"BlurRadius"];
