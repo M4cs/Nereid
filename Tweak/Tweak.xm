@@ -244,7 +244,7 @@ BOOL hasArtwork = NO;
             [NRDManager sharedInstance].mainColor = [NRDManager sharedInstance].fallbackColor;
         }
         
-        artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls] || !hasArtwork);
+        artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
 
         [lastController nrdUpdate];
         [lastDateView nrdUpdate];
