@@ -267,6 +267,7 @@ BOOL initialRelayout = YES;
 
 -(void)viewDidLayoutSubviews {
     %orig;
+    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls]);
     artworkView.frame = self.view.bounds;
 }
 
@@ -334,12 +335,6 @@ BOOL initialRelayout = YES;
     [self.parentContainerView.mediaControlsContainerView layoutIfNeeded];
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView setNeedsLayout];
     [self.parentContainerView.mediaControlsContainerView.mediaControlsTransportStackView layoutIfNeeded];
-}
-
--(void)viewWillDisppear:(BOOL)animated {
-    %orig;
-    if (artworkView) artworkView.hidden = YES;
-    [lastDateView nrdUpdate];
 }
 
 %end
@@ -486,12 +481,36 @@ BOOL initialRelayout = YES;
 
 %end
 
+%hook MPVolumeSlider
+
+%property (nonatomic, assign) BOOL nrdEnabled;
+
+-(id)_thumbImageForStyle:(long long)arg1 {
+    if (!self.nrdEnabled) return %orig;
+
+    UIImage *orig = %orig;
+
+    CIImage *inputImage = [[CIImage alloc] initWithImage:orig];
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIFilter *compositeFilter = [CIFilter filterWithName:@"CIColorInvert"];
+    [compositeFilter setValue:inputImage forKey:@"inputImage"];
+    CIImage *outputImage = [compositeFilter outputImage];
+    CGImageRef cgimg = [context createCGImage:outputImage fromRect:inputImage.extent];
+    UIImage *finalImage = [[UIImage imageWithCGImage:cgimg scale:orig.scale orientation:UIImageOrientationUp] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    CGImageRelease(cgimg);
+
+    return finalImage;
+}
+
+%end
+
 %hook MediaControlsVolumeContainerView
 
 %property (nonatomic, assign) BOOL nrdEnabled;
 
 %new
 -(void)nrdUpdate {
+    self.volumeSlider.nrdEnabled = YES;
     self.volumeSlider.layer.filters = nil;
     self.volumeSlider.layer.compositingFilter = nil;
 
@@ -513,7 +532,9 @@ BOOL initialRelayout = YES;
 
     self.volumeSlider.minimumTrackTintColor = [[NRDManager sharedInstance].mainColor copy];
     self.volumeSlider.maximumTrackTintColor = [[NRDManager sharedInstance].mainColor copy];
-    self.volumeSlider.thumbTintColor = [[NRDManager sharedInstance].mainColor copy];
+
+    UIImageView *thumbView = (UIImageView *)[self.volumeSlider thumbView];
+    thumbView.tintColor = [[NRDManager sharedInstance].mainColor copy];
 }
 
 %end

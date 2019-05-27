@@ -534,12 +534,14 @@
 
 @interface MPVolumeSlider : UISlider
 
+@property (nonatomic, assign) BOOL nrdEnabled;
 @property (nonatomic,readonly) UIView* thumbView;
 
 -(UIImageView *)_minTrackView;
 -(UIImageView *)_maxTrackView;
 -(UIImageView *)_minValueView;
 -(UIImageView *)_maxValueView;
+-(void)_resetThumbImageForState:(unsigned long long)arg1 ;
 
 @end
 
