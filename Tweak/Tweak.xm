@@ -19,6 +19,7 @@ BOOL hideTimeLabels;
 BOOL showMiddleButtonCircle;
 BOOL colorizeDateAndTime;
 BOOL hapticFeedback;
+BOOL hideClockWhilePlaying;
 NSInteger blurRadius = 0;
 NSInteger darken = 0;
 NSInteger color = 0;
@@ -131,6 +132,7 @@ BOOL initialRelayout = YES;
 
 -(void)_didUpdateDisplay {
     %orig;
+    if (hideClockWhilePlaying) lastDateView.hidden = [self isShowingMediaControls];
     if ([self isShowingMediaControls]) [lastController nrdUpdate];
     artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls]);
 }
@@ -829,6 +831,7 @@ void reloadColors() {
     [preferences registerBool:&colorizeDateAndTime default:YES forKey:@"ColorizeDateAndTime"];
     [preferences registerBool:&swapArtistAndTitle default:NO forKey:@"SwapArtistAndTitle"];
     [preferences registerBool:&hapticFeedback default:NO forKey:@"HapticFeedback"];
+    [preferences registerBool:&hideClockWhilePlaying default:NO forKey:@"HideClockWhilePlaying"];
     [preferences registerInteger:&extraButtonLeft default:0 forKey:@"ExtraButtonLeft"];
     [preferences registerInteger:&extraButtonRight default:0 forKey:@"ExtraButtonRight"];
     [preferences registerInteger:&blurRadius default:0 forKey:@"BlurRadius"];
