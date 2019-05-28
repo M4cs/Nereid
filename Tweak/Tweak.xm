@@ -572,6 +572,8 @@ BOOL hasArtwork = NO;
     %orig;
     if (!self.nrdEnabled) {
         if (self.nrdCircleView) self.nrdCircleView.hidden = YES;
+        if (self.nrdLeftButton) self.nrdLeftButton.hidden = YES;
+        if (self.nrdRightButton) self.nrdRightButton.hidden = YES;
         return;
     }
 
