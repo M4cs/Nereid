@@ -94,6 +94,7 @@
 
 @interface MPUMarqueeView : UIView <CAAnimationDelegate>
 
+@property (nonatomic, assign) BOOL nrdEnabled;
 @property (assign,nonatomic) double contentGap;                                        //@synthesize contentGap=_contentGap - In the implementation block
 @property (assign,nonatomic) CGSize contentSize;                                       //@synthesize contentSize=_contentSize - In the implementation block
 @property (nonatomic,readonly) UIView * contentView;                                   //@synthesize contentView=_contentView - In the implementation block

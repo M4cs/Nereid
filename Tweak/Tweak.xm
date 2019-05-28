@@ -357,8 +357,10 @@ BOOL hasArtwork = NO;
 
 %hook MPUMarqueeView
 
+%property (nonatomic, assign) BOOL nrdEnabled;
+
 -(void)layoutSubviews {
-    if ([self.contentView subviews] && [[self.contentView subviews] count] > 0) {
+    if (self.nrdEnabled && [self.contentView subviews] && [[self.contentView subviews] count] > 0) {
         UIView *view = [self.contentView subviews][0];
 
         CGRect frame = view.frame;
@@ -373,6 +375,7 @@ BOOL hasArtwork = NO;
 
     %orig;
 
+    if (!self.nrdEnabled) return;
     CGRect cvFrame = self.contentView.frame;
     self.contentView.frame = CGRectMake(0, cvFrame.origin.y, cvFrame.size.width, cvFrame.size.height);
 }
@@ -443,6 +446,9 @@ BOOL hasArtwork = NO;
 
 %new
 -(void)nrdUpdate {
+    self.primaryMarqueeView.nrdEnabled = self.nrdEnabled;
+    self.secondaryMarqueeView.nrdEnabled = self.nrdEnabled;
+    
     if (!self.nrdEnabled) return;
     self.secondaryLabel.font = [UIFont systemFontOfSize:13];
 
