@@ -165,7 +165,6 @@ BOOL hasArtwork = NO;
     MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(), ^(CFDictionaryRef information) {
         NSDictionary *dict = (__bridge NSDictionary *)information;
         
-        hasArtwork = NO;
         if (dict) {
             if (dict[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
                 UIImage *image = [UIImage imageWithData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]];
