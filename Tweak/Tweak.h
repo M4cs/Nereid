@@ -22,6 +22,8 @@
 
 @interface SBDashBoardViewController : UIViewController
 
+@property (nonatomic, retain) UIImageView *nrdArtworkView;
+
 @end
 
 @interface SBDashBoardNotificationAdjunctListViewController : UIViewController
@@ -42,6 +44,7 @@
 @interface SBMediaController : NSObject
 
 @property (nonatomic,readonly) SBApplication * nowPlayingApplication;
+@property (nonatomic, retain) NSData *nrdLastImageData;
 -(id)_nowPlayingInfo;
 
 @end

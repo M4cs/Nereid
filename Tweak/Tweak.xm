@@ -30,7 +30,6 @@ NSInteger extraButtonLeft = 0;
 NSInteger extraButtonRight = 0;
 
 UIImageView *artworkView = nil;
-NSData *lastImageData = nil;
 CGFloat alpha = 1; //default 0.667
 
 MediaControlsPanelViewController *lastController = nil;
@@ -69,7 +68,7 @@ BOOL hasArtwork = NO;
     self.fallbackColor = [LCPParseColorString([colors objectForKey:@"CustomColor"], @"#ffffff:1.0") copy];
     self.artworkBackgroundColor = [LCPParseColorString([colors objectForKey:@"ArtworkBackgroundColor"], @"#000000:1.0") copy];
 
-    if (lastController && color == 3) [lastController nrdUpdate];
+    if (lastController && [lastController respondsToSelector:@selector(nrdUpdate)] && color == 3) [lastController nrdUpdate];
     if (artworkView) artworkView.backgroundColor = [self.artworkBackgroundColor copy];
 }
 
@@ -90,7 +89,7 @@ BOOL hasArtwork = NO;
     if (!artworkView) return;
     
     UIColor *color = [NRDManager sharedInstance].legibilityColor;
-    if (colorizeDateAndTime && artworkAsBackground && artworkView.hidden == NO) {
+    if (colorizeDateAndTime && artworkAsBackground && artworkView && artworkView.hidden == NO) {
         color = [NRDManager sharedInstance].mainColor;
     }
 
@@ -139,8 +138,8 @@ BOOL hasArtwork = NO;
 -(void)_didUpdateDisplay {
     %orig;
     if (hideClockWhilePlaying) lastDateView.hidden = [self isShowingMediaControls];
-    if ([self isShowingMediaControls]) [lastController nrdUpdate];
-    artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls] || !hasArtwork);
+    if (lastController && [lastController respondsToSelector:@selector(nrdUpdate)] && [self isShowingMediaControls]) [lastController nrdUpdate];
+    if (artworkView) artworkView.hidden = (!artworkAsBackground || ![self isShowingMediaControls] || !hasArtwork);
 }
 
 %end
@@ -158,6 +157,8 @@ BOOL hasArtwork = NO;
 
 %hook SBMediaController
 
+%property (nonatomic, retain) NSData *nrdLastImageData;
+
 -(void)setNowPlayingInfo:(id)arg1 {
     %orig;
 
@@ -171,8 +172,8 @@ BOOL hasArtwork = NO;
                 if (!image) return;
                 hasArtwork = YES;
                 
-                if (lastImageData && [lastImageData isEqualToData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]]) return;
-                lastImageData = [dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData];
+                if (self.nrdLastImageData && [self.nrdLastImageData isEqualToData:[dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData]]) return;
+                self.nrdLastImageData = [dict objectForKey:(__bridge NSString*)kMRMediaRemoteNowPlayingInfoArtworkData];
                 
                 UIImage *toImage = image;
                 if (blurRadius > 0 || darken > 0) {
@@ -243,10 +244,10 @@ BOOL hasArtwork = NO;
             [NRDManager sharedInstance].mainColor = [NRDManager sharedInstance].fallbackColor;
         }
         
-        artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
+        if (artworkView && adjunctListViewController) artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
 
-        [lastController nrdUpdate];
-        [lastDateView nrdUpdate];
+        if (lastController && [lastController respondsToSelector:@selector(nrdUpdate)]) [lastController nrdUpdate];
+        if (lastDateView && [lastDateView respondsToSelector:@selector(nrdUpdate)]) [lastDateView nrdUpdate];
     });
 }
 
@@ -254,31 +255,36 @@ BOOL hasArtwork = NO;
 
 %hook SBDashBoardViewController
 
+%property (nonatomic, retain) UIImageView *nrdArtworkView;
+
 -(void)viewWillAppear:(BOOL)animated {
     %orig;
-    if (!artworkView) {
-        artworkView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-        artworkView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.view insertSubview:artworkView atIndex:0];
-        artworkView.hidden = NO;
-        artworkView.image = [UIImage new];
-        artworkView.backgroundColor = [[NRDManager sharedInstance].artworkBackgroundColor copy];
+    if (!self.nrdArtworkView) {
+        self.nrdArtworkView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        self.nrdArtworkView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.view insertSubview:self.nrdArtworkView atIndex:0];
+        self.nrdArtworkView.hidden = NO;
+        self.nrdArtworkView.image = [UIImage new];
+        self.nrdArtworkView.backgroundColor = [[NRDManager sharedInstance].artworkBackgroundColor copy];
     }
+
+    artworkView = self.nrdArtworkView;
     
-    if (artworkMode == 0) artworkView.contentMode = UIViewContentModeScaleAspectFill;
-    else artworkView.contentMode = UIViewContentModeScaleAspectFit;
+    if (artworkMode == 0) self.nrdArtworkView.contentMode = UIViewContentModeScaleAspectFill;
+    else self.nrdArtworkView.contentMode = UIViewContentModeScaleAspectFit;
 
-    artworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
+    if (adjunctListViewController) self.nrdArtworkView.hidden = (!artworkAsBackground || ![adjunctListViewController isShowingMediaControls] || !hasArtwork);
+    else self.nrdArtworkView.hidden = YES;
 
-    [lastDateView nrdUpdate];
+    if (lastDateView && [lastDateView respondsToSelector:@selector(nrdUpdate)]) [lastDateView nrdUpdate];
 
-    artworkView.frame = self.view.bounds;
+    self.nrdArtworkView.frame = self.view.bounds;
 }
 
 -(void)viewDidLayoutSubviews {
     %orig;
-    [self.view sendSubviewToBack:artworkView];
-    artworkView.frame = self.view.bounds;
+    [self.view sendSubviewToBack:self.nrdArtworkView];
+    self.nrdArtworkView.frame = self.view.bounds;
 }
 
 %end
@@ -331,7 +337,7 @@ BOOL hasArtwork = NO;
 -(void)viewWillAppear:(BOOL)animated {
     %orig;
     if (!self.nrdEnabled) return;
-    [lastDateView nrdUpdate];
+    if (lastDateView && [lastDateView respondsToSelector:@selector(nrdUpdate)]) [lastDateView nrdUpdate];
     [self.parentContainerView setNeedsLayout];
     [self.parentContainerView layoutIfNeeded];
 }
