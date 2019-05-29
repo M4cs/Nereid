@@ -333,6 +333,7 @@
 @property (nonatomic, assign) BOOL nrdEnabled;
 
 -(void)nrdUpdate;
+-(void)nrdForceViewToBeWhereItShouldBe:(UIView *)view supersuperview:(UIView *)supersuperview;
 
 @end
 

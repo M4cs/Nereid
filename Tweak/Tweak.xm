@@ -365,11 +365,11 @@ BOOL hasArtwork = NO;
 
         CGRect frame = view.frame;
         if (frame.size.width < self.bounds.size.width) {
-            view.frame = CGRectMake(frame.origin.x, frame.origin.y, self.bounds.size.width, frame.size.height);
+            view.frame = CGRectMake(0, frame.origin.y, self.bounds.size.width, frame.size.height);
         }
 
         if (frame.size.width > self.bounds.size.width) {
-            view.frame = CGRectMake(frame.origin.x + 6, frame.origin.y, frame.size.width, frame.size.height);
+            view.frame = CGRectMake(6, frame.origin.y, frame.size.width, frame.size.height);
         }
     }
 
